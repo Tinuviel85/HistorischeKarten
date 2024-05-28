@@ -57,6 +57,7 @@
             <option value="https://warper.wmflabs.org/maps/tile/1127/{z}/{x}/{y}.png">Charlottenburg u. Westend 1883</option>
             <option value="https://warper.wmflabs.org/maps/tile/194/{z}/{x}/{y}.png">Nordberlin u. Spandau 1909</option>
             <option value="https://warper.wmflabs.org/maps/tile/2679/{z}/{x}/{y}.png">Akzisemauer</option>
+
         </select>
         <br>
         <label for="transparency">Transparenz:</label>
@@ -102,8 +103,6 @@
         });
 
         // GPS-Funktionalität
-        map.locate({ setView: true, maxZoom: 16 });
-
         function onLocationFound(e) {
             var radius = e.accuracy / 2;
 
@@ -119,6 +118,8 @@
 
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
+
+        map.locate({setView: true, maxZoom: 16});
     </script>
 </body>
 </html>
