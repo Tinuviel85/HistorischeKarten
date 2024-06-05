@@ -33,6 +33,7 @@
             border: 2px solid black;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.8);
+            transform-origin: center center;
         }
     </style>
 </head>
@@ -139,7 +140,13 @@
             console.log("Position gefunden:", lat, lng, "Genauigkeit:", accuracy);
 
             if (!gpsMarker) {
-                gpsMarker = L.marker([lat, lng]).addTo(map)
+                gpsMarker = L.marker([lat, lng], {
+                    icon: L.divIcon({
+                        className: 'custom-arrow',
+                        html: '<div>↑</div>',
+                        iconSize: [30, 30]
+                    })
+                }).addTo(map)
                     .bindPopup("You are within " + accuracy + " meters from this point").openPopup();
             } else {
                 gpsMarker.setLatLng([lat, lng]);
@@ -178,17 +185,9 @@
             alert("Geolocation is not supported by this browser.");
         }
 
-        // Richtungspfeil hinzufügen
-        var directionArrow = L.marker([52.5200, 13.4050], {
-            icon: L.divIcon({
-                className: 'custom-arrow',
-                html: '<div style="transform: rotate(0deg);">↑</div>',
-                iconSize: [30, 30]
-            })
-        }).addTo(map);
-
+        // Richtungspfeil hinzufügen und aktualisieren
         function updateDirection(heading) {
-            var arrowElement = directionArrow.getElement().querySelector('div');
+            var arrowElement = gpsMarker.getElement().querySelector('div');
             if (arrowElement) {
                 arrowElement.style.transform = 'rotate(' + heading + 'deg)';
             }
@@ -197,7 +196,10 @@
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function(event) {
                 var heading = event.alpha; // In Grad
-                updateDirection(heading);
+                if (gpsMarker) {
+                    var currentLatLng = gpsMarker.getLatLng();
+                    updateDirection(heading);
+                }
             });
         } else {
             alert("Device Orientation is not supported by this browser.");
