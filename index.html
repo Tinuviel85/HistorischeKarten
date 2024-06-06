@@ -198,7 +198,7 @@
                 var heading = event.alpha; // In Grad
                 if (gpsMarker) {
                     var currentLatLng = gpsMarker.getLatLng();
-                    updateDirection(heading);
+                    updateDirection(360 - heading); // Drehung anpassen, um die richtige Richtung zu zeigen
                 }
             });
         } else {
