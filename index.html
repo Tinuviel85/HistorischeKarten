@@ -186,6 +186,7 @@
         }
 
         // Richtungspfeil hinzufügen und aktualisieren
+        // Verwendung der DeviceOrientation API, um die Halterichtung des Geräts zu ermitteln
         function updateDirection(heading) {
             var arrowElement = gpsMarker.getElement().querySelector('div');
             if (arrowElement) {
@@ -197,7 +198,6 @@
             window.addEventListener('deviceorientation', function(event) {
                 var heading = event.alpha; // In Grad
                 if (gpsMarker) {
-                    var currentLatLng = gpsMarker.getLatLng();
                     updateDirection(heading); // Verwenden Sie den heading-Wert direkt
                 }
             });
